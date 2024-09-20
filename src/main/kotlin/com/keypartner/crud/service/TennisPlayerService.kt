@@ -12,7 +12,7 @@ class TennisPlayerService(@Autowired val repository: TennisPlayerRepository) {
 
     fun selectById(id: Int): TennisPlayer = repository.findById(id).get()
 
-    fun insert(player: TennisPlayer) = repository.save(player)
+    fun insert(player: TennisPlayer): Int = repository.save(player).id
 
     fun updateRanking(id: Int, ranking: Int) {
         val player = repository.findById(id).get()
