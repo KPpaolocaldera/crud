@@ -6,6 +6,8 @@ import jakarta.persistence.*
 @Table(name = "tennis_player")
 data class TennisPlayer(
     @Id
+    @SequenceGenerator(name = "tennis_player_gen", sequenceName = "tennis_player_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(generator = "tennis_player_gen", strategy = GenerationType.AUTO)
     val id: Int,
 
     val name: String,
