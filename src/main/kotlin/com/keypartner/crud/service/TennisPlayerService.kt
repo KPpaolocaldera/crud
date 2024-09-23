@@ -1,5 +1,6 @@
 package com.keypartner.crud.service
 
+import com.keypartner.crud.model.Identifier
 import com.keypartner.crud.model.TennisPlayer
 import com.keypartner.crud.repository.TennisPlayerRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,7 +15,10 @@ class TennisPlayerService(@Autowired val repository: TennisPlayerRepository) {
         throw NoSuchElementException("No element found with id $id.")
     }
 
-    fun insert(player: TennisPlayer): Int = repository.save(player).id
+    fun insert(player: TennisPlayer): Identifier {
+        val insertedPlayer = repository.save(player)
+        return Identifier(insertedPlayer.id)
+    }
 
     fun updateRanking(id: Int, ranking: Int): TennisPlayer {
         val player = repository.findById(id).orElseThrow {

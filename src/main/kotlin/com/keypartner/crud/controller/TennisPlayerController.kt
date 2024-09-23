@@ -1,5 +1,6 @@
 package com.keypartner.crud.controller
 
+import com.keypartner.crud.model.Identifier
 import com.keypartner.crud.model.TennisPlayer
 import com.keypartner.crud.service.TennisPlayerService
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,7 +25,7 @@ class TennisPlayerController(@Autowired private val service: TennisPlayerService
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createTennisPlayer(@RequestBody player: TennisPlayer): Int = service.insert(player)
+    fun createTennisPlayer(@RequestBody player: TennisPlayer): Identifier = service.insert(player)
 
     @GetMapping
     fun getTennisPlayers(): List<TennisPlayer> = service.selectAll()
