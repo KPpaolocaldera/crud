@@ -5,7 +5,7 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "tennis_player")
 data class TennisPlayer(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
     val id: Int,
 
     val name: String,
