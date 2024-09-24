@@ -29,6 +29,9 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/tennisplayers")
 class TennisPlayerController(@Autowired private val service: TennisPlayerService) {
 
+    /**
+     * POST /tennisplayers
+     */
     @Operation(
         summary = "Add tennis player",
         description = "Add a new tennis player to the rankings.",
@@ -46,6 +49,10 @@ class TennisPlayerController(@Autowired private val service: TennisPlayerService
     @ResponseStatus(HttpStatus.CREATED)
     fun createTennisPlayer(@RequestBody player: TennisPlayer): Identifier = service.insert(player)
 
+
+    /**
+     * GET /tennisplayers
+     */
     @Operation(
         summary = "Get rankings",
         description = "Retrieve all the tennis players with their data and rankings.",
@@ -56,13 +63,13 @@ class TennisPlayerController(@Autowired private val service: TennisPlayerService
             mediaType = "application/json", array = ArraySchema(schema = Schema(implementation = TennisPlayer::class)),
             examples = [ExampleObject(value = "[\n" +
                     "  {\n" +
-                    "    \"id\": 0,\n" +
+                    "    \"id\": 1,\n" +
                     "    \"name\": \"string\",\n" +
                     "    \"surname\": \"string\",\n" +
-                    "    \"country\": \"string\",\n" +
-                    "    \"age\": 0,\n" +
+                    "    \"country\": \"US\",\n" +
+                    "    \"age\": 25,\n" +
                     "    \"isRightHanded\": true,\n" +
-                    "    \"currentRanking\": 0\n" +
+                    "    \"currentRanking\": 7\n" +
                     "  }\n" +
                     "]")] )
         ]),
@@ -72,27 +79,79 @@ class TennisPlayerController(@Autowired private val service: TennisPlayerService
     @GetMapping
     fun getTennisPlayers(): List<TennisPlayer> = service.selectAll()
 
+
+    /**
+     * GET /tennisplayers/{id}
+     */
     @Operation(
         summary = "Get tennis player info",
         description = "Retrieve the information of a specific tennis player in the rankings.",
         tags = ["tennis-players"]
     )
+    @ApiResponses(
+        ApiResponse(responseCode = "200", description = "OK", content = [ Content(
+            mediaType = "application/json", contentSchema = Schema(implementation = TennisPlayer::class),
+            examples = [ExampleObject(value = "{\n" +
+                    "    \"id\": 1,\n" +
+                    "    \"name\": \"string\",\n" +
+                    "    \"surname\": \"string\",\n" +
+                    "    \"country\": \"US\",\n" +
+                    "    \"age\": 25,\n" +
+                    "    \"isRightHanded\": true,\n" +
+                    "    \"currentRanking\": 7\n" +
+                    "  }")] )
+        ]),
+        ApiResponse(responseCode = "400", description = "Bad Request", content = [ Content(mediaType = "text/plain") ]),
+        ApiResponse(responseCode = "404", description = "Not Found", content = [ Content(mediaType = "text/plain") ]),
+        ApiResponse(responseCode = "500", description = "Internal Server Error", content = [ Content(mediaType = "text/plain") ])
+    )
     @GetMapping("/{id}")
     fun getTennisPlayerById(@PathVariable id: Int) = service.selectById(id)
 
+
+    /**
+     * PATCH /tennisplayers/{id}
+     */
     @Operation(
         summary = "Update ranking",
         description = "Update the ranking of a specific tennis player.",
         tags = ["tennis-players"]
     )
+    @ApiResponses(
+        ApiResponse(responseCode = "200", description = "OK", content = [ Content(
+            mediaType = "application/json", contentSchema = Schema(implementation = TennisPlayer::class),
+            examples = [ExampleObject(value = "{\n" +
+                    "    \"id\": 1,\n" +
+                    "    \"name\": \"string\",\n" +
+                    "    \"surname\": \"string\",\n" +
+                    "    \"country\": \"US\",\n" +
+                    "    \"age\": 25,\n" +
+                    "    \"isRightHanded\": true,\n" +
+                    "    \"currentRanking\": 7\n" +
+                    "  }")] )
+        ]),
+        ApiResponse(responseCode = "400", description = "Bad Request", content = [ Content(mediaType = "text/plain") ]),
+        ApiResponse(responseCode = "404", description = "Not Found", content = [ Content(mediaType = "text/plain") ]),
+        ApiResponse(responseCode = "500", description = "Internal Server Error", content = [ Content(mediaType = "text/plain") ])
+    )
     @PatchMapping("/{id}")
-    fun updateTennisPlayerRanking(@PathVariable id: Int, @RequestParam ranking: Int) =
+    fun updateTennisPlayerRanking(@PathVariable id: Int, @RequestParam ranking: Int): TennisPlayer =
         service.updateRanking(id, ranking)
 
+
+    /**
+     * DELETE /tennisplayers/{id}
+     */
     @Operation(
         summary = "Remove tennis player",
         description = "Remove a tennis player from the rankings.",
         tags = ["tennis-players"]
+    )
+    @ApiResponses(
+        ApiResponse(responseCode = "204", description = "No Content"),
+        ApiResponse(responseCode = "400", description = "Bad Request", content = [ Content(mediaType = "text/plain") ]),
+        ApiResponse(responseCode = "404", description = "Not Found", content = [ Content(mediaType = "text/plain") ]),
+        ApiResponse(responseCode = "500", description = "Internal Server Error", content = [ Content(mediaType = "text/plain") ])
     )
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

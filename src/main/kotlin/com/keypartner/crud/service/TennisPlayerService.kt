@@ -11,7 +11,7 @@ class TennisPlayerService(@Autowired val repository: TennisPlayerRepository) {
 
     fun selectAll(): List<TennisPlayer> = repository.findAll()
 
-    fun selectById(id: Int): TennisPlayer? = repository.findById(id).orElseThrow {
+    fun selectById(id: Int): TennisPlayer = repository.findById(id).orElseThrow {
         throw NoSuchElementException("No element found with id $id.")
     }
 
@@ -27,5 +27,10 @@ class TennisPlayerService(@Autowired val repository: TennisPlayerRepository) {
         return repository.save(player.copy(currentRanking = ranking))
     }
 
-    fun delete(id: Int) = repository.deleteById(id)
+    fun delete(id: Int) {
+        repository.findById(id).orElseThrow {
+            throw NoSuchElementException("No element found with id $id.")
+        }
+        repository.deleteById(id)
+    }
 }
