@@ -16,7 +16,7 @@ $ git clone https://github.com/KPpaolocaldera/crud.git
 or a tool for cloning the repository, which can also be the IDE itself.
 
 Then, run the application without any further modification.
-Use the [postman collection]() to perform REST HTTP calls to the endpoints exposed by the application.
+Use the [postman collection](https://github.com/KPpaolocaldera/crud/blob/092edfc569de05dde1f37b2a05841262e8eeefc0/crud.postman_collection.json) to perform REST HTTP calls to the endpoints exposed by the application.
 
 ## Documentation
 
