@@ -9,7 +9,23 @@ import org.springframework.stereotype.Service
 @Service
 class TennisPlayerService(@Autowired val repository: TennisPlayerRepository) {
 
-    fun selectAll(): List<TennisPlayer> = repository.findAll()
+    fun selectAll(
+        name: String?,
+        surname: String?,
+        ranking: Int?
+    ): List<TennisPlayer> {
+        return when {
+            !name.isNullOrBlank() && !surname.isNullOrBlank() && ranking != null ->
+                repository.findByNameAndSurnameAndCurrentRanking(name, surname, ranking)
+            !name.isNullOrBlank() && !surname.isNullOrBlank() -> repository.findByNameAndSurname(name, surname)
+            !name.isNullOrBlank() && ranking != null -> repository.findByNameAndCurrentRanking(name, ranking)
+            !surname.isNullOrBlank() && ranking != null -> repository.findBySurnameAndCurrentRanking(surname, ranking)
+            !name.isNullOrBlank() -> repository.findByName(name)
+            !surname.isNullOrBlank() -> repository.findBySurname(surname)
+            ranking != null -> repository.findByCurrentRanking(ranking)
+            else -> repository.findAll()
+        }
+    }
 
     fun selectById(id: Int): TennisPlayer = repository.findById(id).orElseThrow {
         throw NoSuchElementException("No element found with id $id.")
