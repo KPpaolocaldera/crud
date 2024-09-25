@@ -1,5 +1,6 @@
 package com.keypartner.crud.model
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 
 @Entity
@@ -17,6 +18,7 @@ data class Record(
     @Column(name = "grand_slams")
     val grandSlams: Int,
 
+    @JsonBackReference
     @OneToOne(cascade = [ CascadeType.ALL ], fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id", referencedColumnName = "id")
     val player: TennisPlayer
