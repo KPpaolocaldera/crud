@@ -5,4 +5,19 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TennisPlayerRepository: JpaRepository<TennisPlayer, Int>
+interface TennisPlayerRepository: JpaRepository<TennisPlayer, Int> {
+
+    fun findByNameAndSurnameAndCurrentRanking(name: String, surname: String, ranking: Int): List<TennisPlayer>
+
+    fun findByNameAndSurname(name: String, surname: String): List<TennisPlayer>
+
+    fun findByNameAndCurrentRanking(name: String, ranking: Int): List<TennisPlayer>
+
+    fun findBySurnameAndCurrentRanking(surname: String, ranking: Int): List<TennisPlayer>
+
+    fun findByName(name: String): List<TennisPlayer>
+
+    fun findBySurname(surname: String): List<TennisPlayer>
+
+    fun findByCurrentRanking(ranking: Int): List<TennisPlayer>
+}
