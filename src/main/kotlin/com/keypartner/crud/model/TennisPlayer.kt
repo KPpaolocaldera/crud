@@ -22,5 +22,8 @@ data class TennisPlayer(
     val isRightHanded: Boolean,
 
     @Column(name = "current_ranking")
-    val currentRanking: Int
+    val currentRanking: Int,
+
+    @OneToOne(mappedBy = "player")
+    val record: Record
 )
