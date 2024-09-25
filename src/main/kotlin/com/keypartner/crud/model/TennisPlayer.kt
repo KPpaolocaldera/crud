@@ -1,5 +1,6 @@
 package com.keypartner.crud.model
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 
 @Entity
@@ -24,6 +25,7 @@ data class TennisPlayer(
     @Column(name = "current_ranking")
     val currentRanking: Int,
 
+    @JsonManagedReference
     @OneToOne(mappedBy = "player")
     val record: Record
 )
